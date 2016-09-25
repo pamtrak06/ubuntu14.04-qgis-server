@@ -10,5 +10,11 @@ RUN apt-get update -y && apt-get install -y wget && \
 RUN apt-get update -y && apt-get upgrade -y && \
     apt-get install -y libapache2-mod-fcgid qgis-server python-qgis
 
+RUN a2enmod rewrite
+ADD qgis-server-port.conf /etc/apache2/conf-available/
+RUN a2enconf qgis-server-port
+ADD 001-qgis-server.conf /etc/apache2/sites-available/
+RUN a2ensite 001-qgis-server
+
 RUN a2enmod fcgid
 RUN a2enconf serve-cgi-bin
